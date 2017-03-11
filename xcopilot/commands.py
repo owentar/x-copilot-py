@@ -22,7 +22,7 @@ class Command:
             self.dataRefs['sim/cockpit2/gauges/actuators/barometer_setting_in_hg_copilot'] = value
 
     def _sanitizeValue(self, value):
-        return value.strip().replace(' ', '').replace('one', '1').replace('two', '2').replace('three', '3').replace('four', '4').replace('five', '5').replace('six', '6').replace('seven', '7').replace('eight', '8').replace('nine', '9')
+        return value.strip().lower().replace('one', '1').replace('two', '2').replace('three', '3').replace('four', '4').replace('five', '5').replace('six', '6').replace('seven', '7').replace('eight', '8').replace('nine', '9').replace(' ', '')
 
 def parseCommand(strCommand):
     command = Command('SET_ALTIMETER', '^set altimeter (((\d|one|two|three|four|five|six|seven|eight|nine)\s?){4})$')
