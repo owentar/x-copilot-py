@@ -56,7 +56,7 @@ class PythonInterface:
             if command is None:
                 self.window.show('Recorded: ' + strCommand + ' --> Command unrecognized: ' + strCommand)
             else:
-                self.window.show('Command recognized: ' + command.name + ':' + str(command.dataRefs['sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot']))
+                self.window.show('Command recognized: ' + command.name + ':' + str(command.value))
                 for name, value in command.dataRefs.iteritems():
                     dataRef = XPLMFindDataRef(name)
                     XPLMSetDataf(dataRef, value)

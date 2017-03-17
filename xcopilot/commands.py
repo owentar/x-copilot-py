@@ -1,34 +1,58 @@
 import re
 
-class Command:
+class Command(object):
     def __init__(self, name, regex):
         self.name = name
         self.regex = re.compile(regex, re.IGNORECASE)
+        self.value = None
         self.dataRefs = {}
-
-    def addDataRef(self, id):
-        self.dataRefs[id] = None
 
     def recognizeCommand(self, strCommand):
         return self.regex.match(strCommand) is not None
 
     def parseCommand(self, strCommand):
-        match = self.regex.match(strCommand)
-
-        if match:
-            value = self._sanitizeValue(match.group(1))
-            value = float(value[:2] + '.' + value[2:])
-            self.dataRefs['sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot'] = value
-            self.dataRefs['sim/cockpit2/gauges/actuators/barometer_setting_in_hg_copilot'] = value
+        pass
 
     def _sanitizeValue(self, value):
         return value.strip().lower().replace('zero', '0').replace('one', '1').replace('two', '2').replace('three', '3').replace('four', '4').replace('five', '5').replace('six', '6').replace('seven', '7').replace('eight', '8').replace('nine', '9').replace(' ', '')
 
+
+class SetAltimeterCommand(Command):
+    def __init__(self):
+        super(SetAltimeterCommand, self).__init__('SET_ALTIMETER', '^set altimeter (((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){4})$')
+
+    def parseCommand(self, strCommand):
+        match = self.regex.match(strCommand)
+        value = self._sanitizeValue(match.group(1))
+        self.value = float(value[:2] + '.' + value[2:])
+        self.dataRefs['sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot'] = self.value
+        self.dataRefs['sim/cockpit2/gauges/actuators/barometer_setting_in_hg_copilot'] = self.value
+
+class SetAltitudeCommand(Command):
+    def __init__(self):
+        super(SetAltitudeCommand, self).__init__('SET_ALTITUDE', '^set altitude (((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){3,5})$')
+
+    def parseCommand(self, strCommand):
+        match = self.regex.match(strCommand)
+        self.value = float(self._sanitizeValue(match.group(1)))
+        self.dataRefs['sim/cockpit2/autopilot/altitude_dial_ft'] = self.value
+
+class LandingLightsCommand(Command):
+    def __init__(self):
+        super(LandingLightsCommand, self).__init__('LANDING_LIGHTS', '^landing light[s]? (on|off)$')
+
+    def parseCommand(self, strCommand):
+        match = self.regex.match(strCommand)
+        self.value = 1 if match.group(1).lower() == 'on' else 0
+        self.dataRefs['FJS/727/lights/OutboundLLSwitch_L'] = self.value
+        self.dataRefs['FJS/727/lights/OutboundLLSwitch_R'] = self.value
+        self.dataRefs['FJS/727/lights/InboundLLSwitch_L'] = self.value
+        self.dataRefs['FJS/727/lights/InboundLLSwitch_R'] = self.value
+
 def parseCommand(strCommand):
-    command = Command('SET_ALTIMETER', '^set altimeter (((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){4})$')
-    command.addDataRef('sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot')
-    command.addDataRef('sim/cockpit2/gauges/actuators/barometer_setting_in_hg_copilot')
-    if command.recognizeCommand(strCommand):
-        command.parseCommand(strCommand)
-        return command
+    commands = [SetAltimeterCommand(), SetAltitudeCommand(), LandingLightsCommand()]
+    for command in commands:
+        if command.recognizeCommand(strCommand):
+            command.parseCommand(strCommand)
+            return command
     return None
