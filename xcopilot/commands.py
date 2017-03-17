@@ -19,31 +19,31 @@ class Command(object):
 
 class SetAltimeterCommand(Command):
     def __init__(self):
-        super(SetAltimeterCommand, self).__init__('SET_ALTIMETER', '^set altimeter (((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){4})$')
+        super(SetAltimeterCommand, self).__init__('SET_ALTIMETER', '^set altimeter (?P<number>((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){4})$')
 
     def parseCommand(self, strCommand):
         match = self.regex.match(strCommand)
-        value = self._sanitizeValue(match.group(1))
+        value = self._sanitizeValue(match.group('number'))
         self.value = float(value[:2] + '.' + value[2:])
         self.dataRefs['sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot'] = self.value
         self.dataRefs['sim/cockpit2/gauges/actuators/barometer_setting_in_hg_copilot'] = self.value
 
 class SetAltitudeCommand(Command):
     def __init__(self):
-        super(SetAltitudeCommand, self).__init__('SET_ALTITUDE', '^set altitude (((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){3,5})$')
+        super(SetAltitudeCommand, self).__init__('SET_ALTITUDE', '^set altitude (?P<number>((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){3,5})$')
 
     def parseCommand(self, strCommand):
         match = self.regex.match(strCommand)
-        self.value = float(self._sanitizeValue(match.group(1)))
+        self.value = float(self._sanitizeValue(match.group('number')))
         self.dataRefs['sim/cockpit2/autopilot/altitude_dial_ft'] = self.value
 
 class LandingLightsCommand(Command):
     def __init__(self):
-        super(LandingLightsCommand, self).__init__('LANDING_LIGHTS', '^landing light[s]? (on|off)$')
+        super(LandingLightsCommand, self).__init__('LANDING_LIGHTS', '^landing light[s]? (?P<boolean>on|off)$')
 
     def parseCommand(self, strCommand):
         match = self.regex.match(strCommand)
-        self.value = 1 if match.group(1).lower() == 'on' else 0
+        self.value = 1 if match.group('boolean').lower() == 'on' else 0
         self.dataRefs['FJS/727/lights/OutboundLLSwitch_L'] = self.value
         self.dataRefs['FJS/727/lights/OutboundLLSwitch_R'] = self.value
         self.dataRefs['FJS/727/lights/InboundLLSwitch_L'] = self.value
