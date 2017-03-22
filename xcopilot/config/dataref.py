@@ -13,7 +13,7 @@ DataRef = {
     'BEACON_LIGHT': ['sim/cockpit2/switches/beacon_on']
 }
 
-class CommandDataRefProvider:
+class DataRefProvider:
     def __init__(self):
         self.dataRefPerAircraft = {}
 

@@ -1,2 +1,2 @@
 from commands import CommandConfig
-from dataref import CommandDataRefProvider, DataRef
+from dataref import DataRefProvider, DataRef
