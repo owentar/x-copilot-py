@@ -43,7 +43,16 @@ class PythonInterface:
 
     def XPluginReceiveMessage(self, inFromWho, inMessage, inParam):
         if inMessage == XPLM_MSG_PLANE_LOADED:
-            # TODO: load config for the airplane
+            authorID = XPLMFindDataRef('sim/aircraft/view/acf_author')
+            ICAOID = XPLMFindDataRef('sim/aircraft/view/acf_ICAO')
+            descID = XPLMFindDataRef('sim/aircraft/view/acf_descrip')
+            author = []
+            icao = []
+            desc = []
+            XPLMGetDatab(authorID, author, 0, 500)
+            XPLMGetDatab(ICAOID, icao, 0, 40)
+            XPLMGetDatab(descID, desc, 0, 260)
+            self.xcopilot.configureForAircraft((author, desc, icao))
 
     def recordVoiceCallback(self, inCommand, inPhase, inRefcon):
         if inPhase == 0:
