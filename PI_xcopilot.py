@@ -20,7 +20,7 @@ SetDataRef = {
 
 class PythonInterface:
     def XPluginStart(self):
-        logging.basicConfig(filename=os.sep.join(['Resources', 'plugins', 'PythonScripts', 'xcopilot', 'xcopilot.log']), level=logging.DEBUG)
+        logging.basicConfig(filename=os.sep.join(['Resources', 'plugins', 'PythonScripts', 'xcopilot', 'xcopilot.log']), filemode='w', level=logging.DEBUG)
         self.Name = "X-Copilot"
         self.Sig = "Owentar.X-Copilot"
         self.Desc = "A voice commanded copilot"
