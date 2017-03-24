@@ -6,6 +6,8 @@ from xcopilot import XCopilot
 from xcopilot.xplane import Window
 import speech_recognition as sr
 import threading
+import os
+import logging
 
 XPLM_MSG_PLANE_LOADED = 102
 
@@ -18,6 +20,7 @@ SetDataRef = {
 
 class PythonInterface:
     def XPluginStart(self):
+        logging.basicConfig(filename=os.sep.join(['Resources', 'plugins', 'PythonScripts', 'xcopilot', 'xcopilot.log']), level=logging.DEBUG)
         self.Name = "X-Copilot"
         self.Sig = "Owentar.X-Copilot"
         self.Desc = "A voice commanded copilot"
