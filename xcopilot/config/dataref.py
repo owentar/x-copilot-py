@@ -2,6 +2,7 @@ import pkgutil
 import importlib
 from xcopilot.config import aircraft
 from xcopilot.config.aircraft import *
+import logging
 
 DataRef = {
     'SET_ALTIMETER': ['sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot', 'sim/cockpit2/gauges/actuators/barometer_setting_in_hg_copilot'],
@@ -15,6 +16,7 @@ DataRef = {
 
 class DataRefProvider:
     def __init__(self):
+        self.logger = logging.getLogger(__name__)
         self.dataRefPerAircraft = {}
 
         for moduleName in aircraft.__all__:
@@ -25,4 +27,5 @@ class DataRefProvider:
             self.dataRefPerAircraft[key] = dataRefForAircraft
 
     def get(self, aircraftIdentifier):
+        self.logger.debug('Found aircraft config: %s', self.dataRefPerAircraft.has_key(aircraftIdentifier))
         return self.dataRefPerAircraft.get(aircraftIdentifier, DataRef)
