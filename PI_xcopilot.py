@@ -23,6 +23,7 @@ class PythonInterface:
         self.Desc = "A voice commanded copilot"
         self.window = Window(self)
         self.xcopilot = XCopilot()
+        self.xcopilot.configureForAircraft(('', '', ''))
 
         self.command = XPLMCreateCommand("owentar/xcopilot/record_voice_command", "Record voice command.")
         self.recordVoiceCB = self.recordVoiceCallback
@@ -33,7 +34,6 @@ class PythonInterface:
     def XPluginStop(self):
         XPLMUnregisterCommandHandler(self, self.command, self.recordVoiceCB, 0, 0)
         self.window.close()
-        pass
 
     def XPluginEnable(self):
         return 1
@@ -52,7 +52,7 @@ class PythonInterface:
             XPLMGetDatab(authorID, author, 0, 500)
             XPLMGetDatab(ICAOID, icao, 0, 40)
             XPLMGetDatab(descID, desc, 0, 260)
-            self.xcopilot.configureForAircraft((author, desc, icao))
+            self.xcopilot.configureForAircraft((str(author[0]), str(desc[0]), str(icao[0])))
 
     def recordVoiceCallback(self, inCommand, inPhase, inRefcon):
         if inPhase == 0:
@@ -63,8 +63,9 @@ class PythonInterface:
     def recordVoice(self):
         self.window.show('Recording...')
         result = self.xcopilot.recordCommand()
-        command = result[0]
-        dataRefs = result[1]
-        for dataRef in dataRefs:
-            dataRefID = XPLMFindDataRef(dataRef)
-            SetDataRef[command.type](dataRefID, command.value)
+        if result is not None:
+            command = result[0]
+            dataRefs = result[1]
+            for dataRef in dataRefs:
+                dataRefID = XPLMFindDataRef(dataRef)
+                SetDataRef[command.type](dataRefID, command.value)

@@ -22,6 +22,7 @@ class XCopilot:
             command = self.commandProcessor.parseCommand(strCommand)
             if command is None:
                 print 'Recorded: ' + strCommand + ' --> Command unrecognized: ' + strCommand
+                return None
             else:
                 print 'Command recognized: ' + command.name + ':' + str(command.value)
                 commandDataRefs = self.dataRef.get(command.name)
