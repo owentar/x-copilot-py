@@ -13,7 +13,6 @@ class Command:
         self.name = name
         self.regex = re.compile(config['regex'], re.IGNORECASE)
         self.parseValue = config.get('parseValue')
-        self.type = config.get('type')
         self.value = None
 
     def recognizeCommand(self, strCommand):
@@ -26,7 +25,6 @@ class Command:
                 if (self.parseValue is None):
                     valueParser = VALUE_PARSER_MAP[key]
                     self.value = valueParser(match.group(key))
-                    self.type = key
                 else:
                     self.value = self.parseValue(match.group(key))
 
