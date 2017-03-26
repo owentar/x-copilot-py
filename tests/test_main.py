@@ -25,5 +25,6 @@ class XCopilotTest(unittest.TestCase):
         self.assertEqual('SET_ALTIMETER', result[0].name)
         self.assertEqual(29.92, result[0].value)
         self.assertEqual('float', result[0].type)
-        self.assertEqual('sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot', result[1][0])
-        self.assertEqual('sim/cockpit2/gauges/actuators/barometer_setting_in_hg_copilot', result[1][1])
+        dataRefs = result[1]
+        self.assertEqual('sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot', dataRefs[0]['name'])
+        self.assertEqual('sim/cockpit2/gauges/actuators/barometer_setting_in_hg_copilot', dataRefs[1]['name'])
