@@ -70,5 +70,5 @@ class PythonInterface:
             command = result[0]
             dataRefs = result[1]
             for dataRef in dataRefs:
-                dataRefID = XPLMFindDataRef(dataRef)
-                SetDataRef[command.type](dataRefID, command.value)
+                dataRefID = XPLMFindDataRef(dataRef['name'])
+                SetDataRef[dataRef['type']](dataRefID, command.value)
