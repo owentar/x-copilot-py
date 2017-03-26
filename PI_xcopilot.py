@@ -26,7 +26,7 @@ class PythonInterface:
         self.Desc = "A voice commanded copilot"
         self.window = Window(self)
         self.xcopilot = XCopilot()
-        self.xcopilot.configureForAircraft(('', '', ''))
+        self._configureForAircraft()
 
         self.command = XPLMCreateCommand("owentar/xcopilot/record_voice_command", "Record voice command.")
         self.recordVoiceCB = self.recordVoiceCallback
@@ -46,16 +46,7 @@ class PythonInterface:
 
     def XPluginReceiveMessage(self, inFromWho, inMessage, inParam):
         if inMessage == XPLM_MSG_PLANE_LOADED:
-            authorID = XPLMFindDataRef('sim/aircraft/view/acf_author')
-            ICAOID = XPLMFindDataRef('sim/aircraft/view/acf_ICAO')
-            descID = XPLMFindDataRef('sim/aircraft/view/acf_descrip')
-            author = []
-            icao = []
-            desc = []
-            XPLMGetDatab(authorID, author, 0, 500)
-            XPLMGetDatab(ICAOID, icao, 0, 40)
-            XPLMGetDatab(descID, desc, 0, 260)
-            self.xcopilot.configureForAircraft((str(author[0]), str(desc[0]), str(icao[0])))
+            self._configureForAircraft()
 
     def recordVoiceCallback(self, inCommand, inPhase, inRefcon):
         if inPhase == 0:
@@ -70,5 +61,17 @@ class PythonInterface:
             command = result[0]
             dataRefs = result[1]
             for dataRef in dataRefs:
-                dataRefID = XPLMFindDataRef(dataRef)
-                SetDataRef[command.type](dataRefID, command.value)
+                dataRefID = XPLMFindDataRef(dataRef['name'])
+                SetDataRef[dataRef['type']](dataRefID, command.value)
+
+    def _configureForAircraft(self):
+        authorID = XPLMFindDataRef('sim/aircraft/view/acf_author')
+        ICAOID = XPLMFindDataRef('sim/aircraft/view/acf_ICAO')
+        descID = XPLMFindDataRef('sim/aircraft/view/acf_descrip')
+        author = []
+        icao = []
+        desc = []
+        XPLMGetDatab(authorID, author, 0, 500)
+        XPLMGetDatab(ICAOID, icao, 0, 40)
+        XPLMGetDatab(descID, desc, 0, 260)
+        self.xcopilot.configureForAircraft((str(author[0]), str(desc[0]), str(icao[0])))

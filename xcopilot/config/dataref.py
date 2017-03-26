@@ -5,13 +5,16 @@ from xcopilot.config.aircraft import *
 import logging
 
 DataRef = {
-    'SET_ALTIMETER': ['sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot', 'sim/cockpit2/gauges/actuators/barometer_setting_in_hg_copilot'],
-    'SET_ALTITUDE': ['sim/cockpit2/autopilot/altitude_dial_ft'],
-    'LANDING_LIGHTS': ['sim/cockpit2/switches/landing_lights_on'],
-    'TAXI_LIGHT': ['sim/cockpit2/switches/taxi_light_on'],
-    'NAVIGATION_LIGHTS': ['sim/cockpit2/switches/navigation_lights_on'],
-    'STROBE_LIGHTS': ['sim/cockpit2/switches/strobe_lights_on'],
-    'BEACON_LIGHT': ['sim/cockpit2/switches/beacon_on']
+    'SET_ALTIMETER': [
+        { 'name': 'sim/cockpit2/gauges/actuators/barometer_setting_in_hg_pilot', 'type': 'float' },
+        { 'name': 'sim/cockpit2/gauges/actuators/barometer_setting_in_hg_copilot', 'type': 'float' }
+    ],
+    'SET_ALTITUDE': [{ 'name': 'sim/cockpit2/autopilot/altitude_dial_ft', 'type': 'float' }],
+    'LANDING_LIGHTS': [{ 'name': 'sim/cockpit2/switches/landing_lights_on', 'type': 'int' }],
+    'TAXI_LIGHT': [{ 'name': 'sim/cockpit2/switches/taxi_light_on', 'type': 'int' }],
+    'NAVIGATION_LIGHTS': [{ 'name': 'sim/cockpit2/switches/navigation_lights_on', 'type': 'int' }],
+    'STROBE_LIGHTS': [{ 'name': 'sim/cockpit2/switches/strobe_lights_on', 'type': 'int' }],
+    'BEACON_LIGHT': [{ 'name': 'sim/cockpit2/switches/beacon_on', 'type': 'int' }]
 }
 
 class DataRefProvider:

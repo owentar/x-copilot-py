@@ -5,5 +5,10 @@ Identifier = {
 }
 
 DataRef = {
-    'LANDING_LIGHTS': ['FJS/727/lights/OutboundLLSwitch_L', 'FJS/727/lights/OutboundLLSwitch_R', 'FJS/727/lights/InboundLLSwitch_L', 'FJS/727/lights/InboundLLSwitch_R']
+    'LANDING_LIGHTS': [
+        { 'name': 'FJS/727/lights/OutboundLLSwitch_L', 'type': 'float' },
+        { 'name': 'FJS/727/lights/OutboundLLSwitch_R', 'type': 'float' },
+        { 'name': 'FJS/727/lights/InboundLLSwitch_L', 'type': 'float' },
+        { 'name': 'FJS/727/lights/InboundLLSwitch_R', 'type': 'float' }
+    ]
 }
