@@ -26,6 +26,9 @@ flaps
 landing
 position
 beacon
+strobe
+wing
+logo
 taxi
 navigation
 light
@@ -34,3 +37,4 @@ on
 off
 vnav
 lnav
+course
