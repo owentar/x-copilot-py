@@ -3,7 +3,7 @@ from XPLMUtilities  import *
 from XPLMPlugin     import *
 from XPLMDefs       import *
 from xcopilot import XCopilot
-from xcopilot.xplane import Window
+from xcopilot.xplane import StatusWidget
 import speech_recognition as sr
 import threading
 import os
@@ -24,7 +24,7 @@ class PythonInterface:
         self.Name = "X-Copilot"
         self.Sig = "Owentar.X-Copilot"
         self.Desc = "A voice commanded copilot"
-        self.window = Window(self)
+        self.window = StatusWidget(self)
         self.xcopilot = XCopilot()
         self._configureForAircraft()
 
@@ -59,10 +59,13 @@ class PythonInterface:
         result = self.xcopilot.recordCommand()
         if result is not None:
             command = result[0]
+            self.window.show('Command recognized: {} {}'.format(command.name, command.value))
             dataRefs = result[1]
             for dataRef in dataRefs:
                 dataRefID = XPLMFindDataRef(dataRef['name'])
                 SetDataRef[dataRef['type']](dataRefID, command.value)
+        else:
+            self.window.show('Command not recognized')
 
     def _configureForAircraft(self):
         authorID = XPLMFindDataRef('sim/aircraft/view/acf_author')

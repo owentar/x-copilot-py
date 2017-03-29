@@ -7,8 +7,7 @@ def parseAltimeterValue(value):
 CommandConfig = {
     'SET_ALTIMETER': {
         'regex': '^set altimeter (?P<custom>((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){4})$',
-        'parseValue': parseAltimeterValue,
-        'type': 'float'
+        'parseValue': parseAltimeterValue
     },
     'SET_ALTITUDE': {
         'regex': '^set altitude (?P<float>((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){3,5})$'
