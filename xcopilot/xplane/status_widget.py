@@ -5,7 +5,7 @@ from XPLMGraphics import *
 from XPStandardWidgets import *
 from XPLMProcessing import *
 
-HEIGHT = 80
+HEIGHT = 50
 MARGIN = 20
 TIMER = 8
 
@@ -14,7 +14,7 @@ class Dimensions:
         self.width = self._getScreenWidth() - (2 * MARGIN)
         self.height = HEIGHT
         self.left = MARGIN
-        self.top = 600
+        self.top = 80
         self.right = self.left + self.width
         self.bottom = self.top - self.height
 
@@ -31,9 +31,9 @@ class StatusWidget:
 
         self.widgetId = XPCreateWidget(self.dimensions.left, self.dimensions.top, self.dimensions.right, self.dimensions.bottom, 0, 'X-Copilot', 1, 0, xpWidgetClass_MainWindow)
         XPSetWidgetProperty(self.widgetId, xpProperty_MainWindowType,  xpMainWindowStyle_Translucent)
-        XPSetWidgetProperty(self.widgetId, xpProperty_MainWindowHasCloseBoxes, 1)
+        XPSetWidgetProperty(self.widgetId, xpProperty_MainWindowHasCloseBoxes, 0) # For now until we fix #24
 
-        self.messageWidget = XPCreateWidget(self.dimensions.left+5, self.dimensions.top, self.dimensions.right-5, self.dimensions.bottom-20, 1, 'Recording...', 0, self.widgetId, xpWidgetClass_TextField)
+        self.messageWidget = XPCreateWidget(self.dimensions.left, self.dimensions.top-20, self.dimensions.right, self.dimensions.bottom, 1, 'Recording...', 0, self.widgetId, xpWidgetClass_TextField)
         XPSetWidgetProperty(self.messageWidget, xpProperty_TextFieldType, xpTextTranslucent)
         XPSetWidgetProperty(self.messageWidget, xpProperty_Enabled, 0)
 
