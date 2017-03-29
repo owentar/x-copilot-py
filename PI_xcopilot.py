@@ -24,6 +24,7 @@ class PythonInterface:
         self.Name = "X-Copilot"
         self.Sig = "Owentar.X-Copilot"
         self.Desc = "A voice commanded copilot"
+        self.isRecording = False
         self.window = StatusWidget(self)
         self.xcopilot = XCopilot()
         self._configureForAircraft()
@@ -55,17 +56,20 @@ class PythonInterface:
         return 0
 
     def recordVoice(self):
-        self.window.show('Recording...')
-        result = self.xcopilot.recordCommand()
-        if result is not None:
-            command = result[0]
-            self.window.show('Command recognized: {} {}'.format(command.name, command.value))
-            dataRefs = result[1]
-            for dataRef in dataRefs:
-                dataRefID = XPLMFindDataRef(dataRef['name'])
-                SetDataRef[dataRef['type']](dataRefID, command.value)
-        else:
-            self.window.show('Command not recognized')
+        if not self.isRecording:
+            self.isRecording = True
+            self.window.show('Recording...')
+            result = self.xcopilot.recordCommand()
+            if result is not None:
+                command = result[0]
+                self.window.show('Command recognized: {} {}'.format(command.name, command.value))
+                dataRefs = result[1]
+                for dataRef in dataRefs:
+                    dataRefID = XPLMFindDataRef(dataRef['name'])
+                    SetDataRef[dataRef['type']](dataRefID, command.value)
+            else:
+                self.window.show('Command not recognized')
+            self.isRecording = False
 
     def _configureForAircraft(self):
         authorID = XPLMFindDataRef('sim/aircraft/view/acf_author')
