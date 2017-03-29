@@ -33,6 +33,9 @@ class PythonInterface:
         self.recordVoiceCB = self.recordVoiceCallback
         self.recordVoiceCD = XPLMRegisterCommandHandler(self, self.command, self.recordVoiceCB, 0, 0)
 
+        self.bootstrapThread = threading.Thread(target=self.bootstrap)
+        self.bootstrapThread.start()
+
         return self.Name, self.Sig, self.Desc
 
     def XPluginStop(self):
@@ -70,6 +73,9 @@ class PythonInterface:
             else:
                 self.window.show('Command not recognized')
             self.isRecording = False
+
+    def bootstrap(self):
+        self.xcopilot.bootstrap()
 
     def _configureForAircraft(self):
         authorID = XPLMFindDataRef('sim/aircraft/view/acf_author')
