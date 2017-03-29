@@ -36,3 +36,14 @@ class XCopilot:
         except sr.RequestError as e:
             self.logger.error('Could not request results from Google Speech Recognition service; {0}'.format(e))
             print 'Could not request results from Google Speech Recognition service; {0}'.format(e)
+
+    def bootstrap(self):
+        try:
+            with sr.Microphone() as source:
+                audio = self.recognizer.listen(source, 2)
+                capture = self.recognizer.recognize_sphinx2(audio)
+                self.logger.info('X-Copilot initialized ({0})'.format(capture))
+        except sr.WaitTimeoutError as e:
+            self.logger.info('X-Copilot initialized')
+        except sr.RequestError as e:
+            self.logger.error('Sphinx error; {0}'.format(e))
