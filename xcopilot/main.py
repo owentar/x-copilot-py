@@ -11,7 +11,7 @@ class XCopilot:
         self.dataRefProvider = DataRefProvider()
         self.recognizer = Recognizer()
 
-    def configureForAircraft(self, aircraftId):
+    def configureForAircraft(self, aircraftId=('', '', '')):
         self.dataRef = self.dataRefProvider.get(aircraftId)
 
     def recordCommand(self):
