@@ -29,7 +29,7 @@ class PythonInterface:
         self.xcopilot = XCopilot()
         self._configureForAircraft()
 
-        self.command = XPLMCreateCommand("owentar/xcopilot/record_voice_command", "Record voice command.")
+        self.command = XPLMCreateCommand("xcopilot/record_voice_command", "Record voice command.")
         self.recordVoiceCB = self.recordVoiceCallback
         self.recordVoiceCD = XPLMRegisterCommandHandler(self, self.command, self.recordVoiceCB, 0, 0)
 
