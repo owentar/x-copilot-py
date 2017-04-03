@@ -1,1 +1,1 @@
-python xcopilot
+python -m xcopilot
