@@ -14,13 +14,13 @@ DataRef = {
     'TAXI_LIGHTS': [
         { 'name': 'FJS/727/lights/TaxiLightSwitch', 'type': 'float' }
     ],
-    'NAVIGATION_LIGHTS': [
+    'NAV_LIGHTS': [
         { 'name': 'FJS/727/lights/NavLightSwitch', 'type': 'float' }
     ],
     'STROBE_LIGHTS': [
         { 'name': 'FJS/727/lights/StrobeLightSwitch', 'type': 'float' }
     ],
-    'BEACON_LIGHT': [
+    'BEACON_LIGHTS': [
         { 'name': 'FJS/727/lights/BeaconLightSwitch', 'type': 'float' }
     ]
 }

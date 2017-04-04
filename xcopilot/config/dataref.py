@@ -13,9 +13,9 @@ DataRef = {
     'LANDING_GEAR': [{ 'name': 'sim/cockpit2/controls/gear_handle_down', 'type': 'boolean' }],
     'LANDING_LIGHTS': [{ 'name': 'sim/cockpit2/switches/landing_lights_on', 'type': 'int' }],
     'TAXI_LIGHT': [{ 'name': 'sim/cockpit2/switches/taxi_light_on', 'type': 'int' }],
-    'NAVIGATION_LIGHTS': [{ 'name': 'sim/cockpit2/switches/navigation_lights_on', 'type': 'int' }],
+    'NAV_LIGHTS': [{ 'name': 'sim/cockpit2/switches/navigation_lights_on', 'type': 'int' }],
     'STROBE_LIGHTS': [{ 'name': 'sim/cockpit2/switches/strobe_lights_on', 'type': 'int' }],
-    'BEACON_LIGHT': [{ 'name': 'sim/cockpit2/switches/beacon_on', 'type': 'int' }]
+    'BEACON_LIGHTS': [{ 'name': 'sim/cockpit2/switches/beacon_on', 'type': 'int' }]
 }
 
 class DataRefProvider:
