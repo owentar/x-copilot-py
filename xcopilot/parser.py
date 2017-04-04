@@ -5,4 +5,4 @@ def parseToFloat(value):
     return float(sanitizeNumberValue(value))
 
 def parseToBoolean(value):
-    return 1 if value.lower() == 'on' else 0
+    return 1 if value.lower() in ['on', 'down'] else 0
