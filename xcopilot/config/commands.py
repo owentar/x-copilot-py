@@ -12,6 +12,9 @@ CommandConfig = {
     'SET_ALTITUDE': {
         'regex': '^set altitude (?P<float>((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){3,5})$'
     },
+    'LANDING_GEAR': {
+        'regex': '^(?:landing )?gear (?P<boolean>up|down)$'
+    },
     'LANDING_LIGHTS': {
         'regex': '^landing light[s]? (?P<boolean>on|off)$'
     }
