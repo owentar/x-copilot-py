@@ -25,14 +25,20 @@ class CommandProcessorTest(unittest.TestCase):
         self._assertCommand(self.commandProcessor.parseCommand('set altitude two nine zero zero'), 'SET_ALTITUDE', 2900)
         self._assertCommand(self.commandProcessor.parseCommand('set altitude three five eight zero zero'), 'SET_ALTITUDE', 35800)
 
+    def test_support_LANDING_GEAR_command(self):
+        self._assertCommand(self.commandProcessor.parseCommand('landing gear up'), 'LANDING_GEAR', 0)
+        self._assertCommand(self.commandProcessor.parseCommand('landing gear down'), 'LANDING_GEAR', 1)
+        self._assertCommand(self.commandProcessor.parseCommand('gear up'), 'LANDING_GEAR', 0)
+        self._assertCommand(self.commandProcessor.parseCommand('gear down'), 'LANDING_GEAR', 1)
+
     def test_support_LANDING_LIGHTS_command(self):
         self._assertCommand(self.commandProcessor.parseCommand('landing light on'), 'LANDING_LIGHTS', 1)
         self._assertCommand(self.commandProcessor.parseCommand('landing light off'), 'LANDING_LIGHTS', 0)
         self._assertCommand(self.commandProcessor.parseCommand('landing lights on'), 'LANDING_LIGHTS', 1)
         self._assertCommand(self.commandProcessor.parseCommand('landing lights off'), 'LANDING_LIGHTS', 0)
 
-    def test_support_LANDING_GEAR_command(self):
-        self._assertCommand(self.commandProcessor.parseCommand('landing gear up'), 'LANDING_GEAR', 0)
-        self._assertCommand(self.commandProcessor.parseCommand('landing gear down'), 'LANDING_GEAR', 1)
-        self._assertCommand(self.commandProcessor.parseCommand('gear up'), 'LANDING_GEAR', 0)
-        self._assertCommand(self.commandProcessor.parseCommand('gear down'), 'LANDING_GEAR', 1)
+    def test_support_TAXI_LIGHTS_command(self):
+        self._assertCommand(self.commandProcessor.parseCommand('taxi lights off'), 'TAXI_LIGHTS', 0)
+        self._assertCommand(self.commandProcessor.parseCommand('taxi lights on'), 'TAXI_LIGHTS', 1)
+        self._assertCommand(self.commandProcessor.parseCommand('taxi light off'), 'TAXI_LIGHTS', 0)
+        self._assertCommand(self.commandProcessor.parseCommand('taxi light on'), 'TAXI_LIGHTS', 1)

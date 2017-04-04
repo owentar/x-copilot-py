@@ -17,5 +17,8 @@ CommandConfig = {
     },
     'LANDING_LIGHTS': {
         'regex': '^landing light[s]? (?P<boolean>on|off)$'
+    },
+    'TAXI_LIGHTS': {
+        'regex': '^taxi light[s]? (?P<boolean>on|off)$'
     }
 }
