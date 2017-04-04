@@ -42,3 +42,21 @@ class CommandProcessorTest(unittest.TestCase):
         self._assertCommand(self.commandProcessor.parseCommand('taxi lights on'), 'TAXI_LIGHTS', 1)
         self._assertCommand(self.commandProcessor.parseCommand('taxi light off'), 'TAXI_LIGHTS', 0)
         self._assertCommand(self.commandProcessor.parseCommand('taxi light on'), 'TAXI_LIGHTS', 1)
+
+    def test_support_NAV_LIGHTS_command(self):
+        self._assertCommand(self.commandProcessor.parseCommand('navigation lights off'), 'NAV_LIGHTS', 0)
+        self._assertCommand(self.commandProcessor.parseCommand('navigation lights on'), 'NAV_LIGHTS', 1)
+        self._assertCommand(self.commandProcessor.parseCommand('navigation light off'), 'NAV_LIGHTS', 0)
+        self._assertCommand(self.commandProcessor.parseCommand('navigation light on'), 'NAV_LIGHTS', 1)
+
+    def test_support_STROBE_LIGHTS_command(self):
+        self._assertCommand(self.commandProcessor.parseCommand('strobe lights off'), 'STROBE_LIGHTS', 0)
+        self._assertCommand(self.commandProcessor.parseCommand('strobe lights on'), 'STROBE_LIGHTS', 1)
+        self._assertCommand(self.commandProcessor.parseCommand('strobe light off'), 'STROBE_LIGHTS', 0)
+        self._assertCommand(self.commandProcessor.parseCommand('strobe light on'), 'STROBE_LIGHTS', 1)
+
+    def test_support_BEACON_LIGHTS_command(self):
+        self._assertCommand(self.commandProcessor.parseCommand('beacon lights off'), 'BEACON_LIGHTS', 0)
+        self._assertCommand(self.commandProcessor.parseCommand('beacon lights on'), 'BEACON_LIGHTS', 1)
+        self._assertCommand(self.commandProcessor.parseCommand('beacon light off'), 'BEACON_LIGHTS', 0)
+        self._assertCommand(self.commandProcessor.parseCommand('beacon light on'), 'BEACON_LIGHTS', 1)

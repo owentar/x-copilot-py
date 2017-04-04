@@ -20,5 +20,14 @@ CommandConfig = {
     },
     'TAXI_LIGHTS': {
         'regex': '^taxi light[s]? (?P<boolean>on|off)$'
-    }
+    },
+    'NAV_LIGHTS': {
+        'regex': '^navigation light[s]? (?P<boolean>on|off)$'
+    },
+    'STROBE_LIGHTS': {
+        'regex': '^strobe light[s]? (?P<boolean>on|off)$'
+    },
+    'BEACON_LIGHTS': {
+        'regex': '^beacon light[s]? (?P<boolean>on|off)$'
+    },
 }
