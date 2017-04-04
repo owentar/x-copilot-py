@@ -11,6 +11,7 @@ DataRef = {
     ],
     'SET_ALTITUDE': [{ 'name': 'sim/cockpit2/autopilot/altitude_dial_ft', 'type': 'float' }],
     'LANDING_GEAR': [{ 'name': 'sim/cockpit2/controls/gear_handle_down', 'type': 'boolean' }],
+    'FLAPS': [{ 'name': 'sim/cockpit2/controls/flap_ratio', 'type': 'float' }],
     'LANDING_LIGHTS': [{ 'name': 'sim/cockpit2/switches/landing_lights_on', 'type': 'int' }],
     'TAXI_LIGHT': [{ 'name': 'sim/cockpit2/switches/taxi_light_on', 'type': 'int' }],
     'NAV_LIGHTS': [{ 'name': 'sim/cockpit2/switches/navigation_lights_on', 'type': 'int' }],

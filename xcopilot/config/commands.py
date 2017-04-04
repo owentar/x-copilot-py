@@ -1,8 +1,16 @@
-from xcopilot.parser import sanitizeNumberValue
+from xcopilot.parser import sanitizeNumberValue, parseToFloat
 
 def parseAltimeterValue(value):
     sanitizedValue = sanitizeNumberValue(value)
     return float(sanitizedValue[:2] + '.' + sanitizedValue[2:])
+
+def parseFlapsValue(value):
+    if value.strip().lower() == 'up':
+        return 0
+    elif value.strip().lower() == 'down':
+        return 1
+    else:
+        return parseToFloat(value)
 
 CommandConfig = {
     'SET_ALTIMETER': {
@@ -14,6 +22,10 @@ CommandConfig = {
     },
     'LANDING_GEAR': {
         'regex': '^(?:landing )?gear (?P<boolean>up|down)$'
+    },
+    'FLAPS': {
+        'regex': '^flaps (?P<float>up|down)$',
+        'parseValue': parseFlapsValue
     },
     'LANDING_LIGHTS': {
         'regex': '^landing light[s]? (?P<boolean>on|off)$'
