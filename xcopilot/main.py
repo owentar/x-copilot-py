@@ -1,18 +1,19 @@
 import speech_recognition as sr
 from xcopilot.commands import CommandProcessor
 from xcopilot.recognizer import Recognizer
-from xcopilot.config.dataref import DataRefProvider
+from xcopilot.config import ConfigProvider
 import logging
 
 class XCopilot:
     def __init__(self):
         self.logger = logging.getLogger(__name__)
         self.commandProcessor = CommandProcessor()
-        self.dataRefProvider = DataRefProvider()
+        self.configProvider = ConfigProvider()
         self.recognizer = Recognizer()
 
     def configureForAircraft(self, aircraftId=('', '', '')):
-        self.dataRef = self.dataRefProvider.get(aircraftId)
+        config = self.configProvider.get(aircraftId)
+        self.commandProcessor.setConfig(config)
 
     def recordCommand(self):
         with sr.Microphone() as source:
@@ -25,8 +26,7 @@ class XCopilot:
                 return None
             else:
                 self.logger.info('Command recognized: %s:%s', command.name, command.value)
-                commandDataRefs = self.dataRef.get(command.name)
-                return (command, commandDataRefs)
+                return command
         except sr.UnknownValueError:
             self.logger.error('Sphinx Speech Recognition could not understand audio')
         except sr.RequestError as e:

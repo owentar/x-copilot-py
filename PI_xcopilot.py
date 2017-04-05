@@ -62,12 +62,10 @@ class PythonInterface:
         if not self.isRecording:
             self.isRecording = True
             self.window.show('Recording...')
-            result = self.xcopilot.recordCommand()
-            if result is not None:
-                command = result[0]
+            command = self.xcopilot.recordCommand()
+            if command is not None:
                 self.window.show('Command recognized: {} {}'.format(command.name, command.value))
-                dataRefs = result[1]
-                for dataRef in dataRefs:
+                for dataRef in command.dataRefs:
                     dataRefID = XPLMFindDataRef(dataRef['name'])
                     SetDataRef[dataRef['type']](dataRefID, command.value)
             else:

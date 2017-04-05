@@ -1,5 +1,6 @@
 import unittest
 from xcopilot.commands import CommandProcessor
+from xcopilot.config import DefaultCommands
 
 class CommandProcessorTest(unittest.TestCase):
 
@@ -10,6 +11,7 @@ class CommandProcessorTest(unittest.TestCase):
 
     def setUp(self):
         self.commandProcessor = CommandProcessor()
+        self.commandProcessor.setConfig(DefaultCommands)
 
     def test_support_SET_ALTIMETER_command(self):
         self._assertCommand(self.commandProcessor.parseCommand('set altimeter 2992'), 'SET_ALTIMETER', 29.92)

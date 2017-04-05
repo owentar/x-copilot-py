@@ -1,6 +1,5 @@
 import re
 from xcopilot.parser import parseToFloat, parseToBoolean
-from xcopilot.config import CommandConfig
 
 VALUE_PARSER_MAP = {
     'custom': None,
@@ -12,6 +11,7 @@ class Command:
     def __init__(self, name, config):
         self.name = name
         self.regex = re.compile(config['regex'], re.IGNORECASE)
+        self.dataRefs = config['dataRefs']
         self.parseValue = config.get('parseValue')
         self.value = None
 
@@ -31,7 +31,10 @@ class Command:
 class CommandProcessor:
     def __init__(self):
         self.commands = []
-        for name, config in CommandConfig.iteritems():
+
+    def setConfig(self, aircraftConfig):
+        self.commands = []
+        for name, config in aircraftConfig.iteritems():
             self.commands.append(Command(name, config))
 
     def parseCommand(self, strCommand):
