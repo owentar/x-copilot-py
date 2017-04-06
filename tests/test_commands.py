@@ -36,10 +36,6 @@ class CommandProcessorTest(unittest.TestCase):
     def test_support_FLAPS_command(self):
         self._assertCommand(self.commandProcessor.parseCommand('flaps up'), 'FLAPS', 0)
         self._assertCommand(self.commandProcessor.parseCommand('flaps down'), 'FLAPS', 1)
-        self._assertCommand(self.commandProcessor.parseCommand('flaps one'), 'FLAPS', 0.01)
-        self._assertCommand(self.commandProcessor.parseCommand('flaps two'), 'FLAPS', 0.02)
-        self._assertCommand(self.commandProcessor.parseCommand('flaps five'), 'FLAPS', 0.05)
-        self._assertCommand(self.commandProcessor.parseCommand('flaps down'), 'FLAPS', 1)
 
     def test_support_LANDING_LIGHTS_command(self):
         self._assertCommand(self.commandProcessor.parseCommand('landing light on'), 'LANDING_LIGHTS', 1)

@@ -1,4 +1,19 @@
-from xcopilot.parser import sanitizeNumberValue, parseToFloat
+from xcopilot.parser import sanitizeNumberValue
+
+FlapsToValue = {
+    'up': 0,
+    'two': 0.142857,
+    'five': 0.285714,
+    'fifteen': 0.428571,
+    'twenty': 0.571429,
+    'twenty five': 0.714286,
+    'thirty': 0.857143,
+    'fourty': 1,
+    'down': 1,
+}
+
+def parseFlapsValue(value):
+    return FlapsToValue[value.strip().lower()]
 
 Identifier = {
     'author': '2016',
@@ -7,6 +22,11 @@ Identifier = {
 }
 
 Commands = {
+    'FLAPS': {
+        'regex': '^flaps (?P<float>up|down|two|five|fifteen|twenty|twenty five|thirty|fourty)$',
+        'parseValue': parseFlapsValue,
+        'dataRefs': [{ 'name': 'sim/cockpit2/controls/flap_ratio', 'type': 'float' }]
+    },
     'LANDING_LIGHTS': {
         'regex': '^landing light[s]? (?P<boolean>on|off)$',
         'dataRefs': [
