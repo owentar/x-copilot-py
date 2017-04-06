@@ -1,5 +1,3 @@
-from xcopilot.parser import sanitizeNumberValue
-
 FlapsToValue = {
     'up': 0,
     'two': 0.142857,

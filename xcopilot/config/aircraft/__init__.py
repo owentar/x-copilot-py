@@ -1,1 +1,1 @@
-__all__ = ['FJS727']
+__all__ = ['XP_Cessna172', 'FJS727']
