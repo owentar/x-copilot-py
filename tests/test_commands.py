@@ -27,6 +27,10 @@ class CommandProcessorTest(unittest.TestCase):
         self._assertCommand(self.commandProcessor.parseCommand('set altitude two nine zero zero'), 'SET_ALTITUDE', 2900)
         self._assertCommand(self.commandProcessor.parseCommand('set altitude three five eight zero zero'), 'SET_ALTITUDE', 35800)
 
+    def test_support_FLIGHT_LEVEL_command(self):
+        self._assertCommand(self.commandProcessor.parseCommand('set flight level three five zero'), 'FLIGHT_LEVEL', 35000)
+        self._assertCommand(self.commandProcessor.parseCommand('flight level zero five zero'), 'FLIGHT_LEVEL', 5000)
+
     def test_support_LANDING_GEAR_command(self):
         self._assertCommand(self.commandProcessor.parseCommand('landing gear up'), 'LANDING_GEAR', 0)
         self._assertCommand(self.commandProcessor.parseCommand('landing gear down'), 'LANDING_GEAR', 1)

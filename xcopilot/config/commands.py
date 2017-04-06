@@ -12,6 +12,9 @@ def parseFlapsValue(value):
     else:
         return parseToFloat(value)
 
+def parseFlightLevel(value):
+    return parseToFloat(value) * 100
+
 DefaultCommands = {
     'SET_ALTIMETER': {
         'regex': '^set altimeter (?P<custom>((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){4})$',
@@ -23,6 +26,11 @@ DefaultCommands = {
     },
     'SET_ALTITUDE': {
         'regex': '^set altitude (?P<float>((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){3,5})$',
+        'dataRefs': [{ 'name': 'sim/cockpit2/autopilot/altitude_dial_ft', 'type': 'float' }]
+    },
+    'FLIGHT_LEVEL': {
+        'regex': '^(?:set )?flight level (?P<float>((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){3})$',
+        'parseValue': parseFlightLevel,
         'dataRefs': [{ 'name': 'sim/cockpit2/autopilot/altitude_dial_ft', 'type': 'float' }]
     },
     'LANDING_GEAR': {
