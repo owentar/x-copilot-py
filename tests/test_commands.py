@@ -21,6 +21,7 @@ class CommandProcessorTest(unittest.TestCase):
         self._assertCommand(self.commandProcessor.parseCommand('set altimeter two 9 nine 2'), 'SET_ALTIMETER', 29.92)
         self._assertCommand(self.commandProcessor.parseCommand('set altimeter three zero zero 0'), 'SET_ALTIMETER', 30.00)
         self._assertCommand(self.commandProcessor.parseCommand('set altimeter three zero one two'), 'SET_ALTIMETER', 30.12)
+        self._assertCommand(self.commandProcessor.parseCommand('set altimeter one zero one three'), 'SET_ALTIMETER', 1013 * 0.0295301)
 
     def test_support_SET_ALTITUDE_command(self):
         self._assertCommand(self.commandProcessor.parseCommand('set altitude one zero three'), 'SET_ALTITUDE', 103)

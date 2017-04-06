@@ -2,7 +2,10 @@ from xcopilot.parser import sanitizeNumberValue, parseToFloat
 
 def parseAltimeterValue(value):
     sanitizedValue = sanitizeNumberValue(value)
-    return float(sanitizedValue[:2] + '.' + sanitizedValue[2:])
+    if float(sanitizedValue) < 2500:
+        return float(sanitizedValue) * 0.0295301
+    else:
+        return float(sanitizedValue[:2] + '.' + sanitizedValue[2:])
 
 def parseFlapsValue(value):
     if value.strip().lower() == 'up':
