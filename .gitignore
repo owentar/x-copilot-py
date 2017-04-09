@@ -1,3 +1,4 @@
 *.pyc
 **/acoustic-model/
 MANIFEST
+dist

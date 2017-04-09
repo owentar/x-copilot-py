@@ -13,7 +13,7 @@ setup(
     author='Hernan Carrizo',
     description='A voice commanded copilot for X-Plane flight simulator',
     platforms='any',
-    scripts=['PI_xcopilot.py'],
+    scripts=['PI_xcopilot.py', 'install.bat', 'install.sh', 'try-it.bat', 'try-it.sh'],
     packages=['xcopilot', 'xcopilot.config', 'xcopilot.config.aircraft', 'xcopilot.xplane'],
     package_dir={ 'xcopilot': 'xcopilot' }
 )
