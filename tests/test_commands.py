@@ -9,6 +9,9 @@ class CommandProcessorTest(unittest.TestCase):
         self.assertEqual(command.name, name)
         self.assertEqual(command.value, value)
 
+    def _assertCommandNotRecognized(self, command):
+        self.assertIsNone(command, 'Command recognized when it should not')
+
     def setUp(self):
         self.commandProcessor = CommandProcessor()
         self.commandProcessor.setConfig(DefaultCommands)
@@ -41,6 +44,26 @@ class CommandProcessorTest(unittest.TestCase):
     def test_support_FLAPS_command(self):
         self._assertCommand(self.commandProcessor.parseCommand('flaps up'), 'FLAPS', 0)
         self._assertCommand(self.commandProcessor.parseCommand('flaps down'), 'FLAPS', 1)
+
+    def test_support_SET_NAV1_command(self):
+        self._assertCommand(self.commandProcessor.parseCommand('set nav one to one zero eight decimal two five'), 'SET_NAV1', 10825)
+        self._assertCommand(self.commandProcessor.parseCommand('set nav one to one zero eight two zero'), 'SET_NAV1', 10820)
+        self._assertCommand(self.commandProcessor.parseCommand('set nav one to one zero eight decimal two'), 'SET_NAV1', 10820)
+        self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set nav one to one zero eight decimal five one'))
+        self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set nav one to one zero eight decimal five two'))
+        self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set nav one to one zero eight decimal five three'))
+        self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set nav one to one zero eight decimal five four'))
+        self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set nav one to one zero eight decimal five six'))
+        self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set nav one to one zero eight decimal five sevem'))
+        self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set nav one to one zero eight decimal five eight'))
+        self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set nav one to one zero eight decimal five nine'))
+
+    def test_support_SET_COM1_command(self):
+        self._assertCommand(self.commandProcessor.parseCommand('set com one to one one eight decimal two five'), 'SET_COM1', 11825)
+        self._assertCommand(self.commandProcessor.parseCommand('set com one to one one eight two seven'), 'SET_COM1', 11827)
+        self._assertCommand(self.commandProcessor.parseCommand('set com one to one one eight decimal two'), 'SET_COM1', 11820)
+        self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set com one to one zero eight decimal five zero'))
+        self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set com one to one three eight five'))
 
     def test_support_LANDING_LIGHTS_command(self):
         self._assertCommand(self.commandProcessor.parseCommand('landing light on'), 'LANDING_LIGHTS', 1)

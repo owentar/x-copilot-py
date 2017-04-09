@@ -1,3 +1,6 @@
+set nav one to one two three decimal two five
+set nav one to one one nine decimal three zero
+decimal
 zero
 one
 two
@@ -40,3 +43,5 @@ lnav
 course
 flight
 level
+com
+nav
