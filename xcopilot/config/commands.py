@@ -46,7 +46,7 @@ DefaultCommands = {
         'dataRefs': [{ 'name': 'sim/cockpit2/controls/gear_handle_down', 'type': 'boolean' }]
     },
     'FLAPS': {
-        'regex': '^flaps (?P<float>up|down)$',
+        'regex': '^flaps (?P<custom>up|down)$',
         'parseValue': parseFlapsValue,
         'dataRefs': [{ 'name': 'sim/cockpit2/controls/flap_ratio', 'type': 'float' }]
     },

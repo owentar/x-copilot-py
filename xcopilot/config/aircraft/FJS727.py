@@ -1,3 +1,5 @@
+from xcopilot.config import DefaultCommands
+
 FlapsToValue = {
     'up': 0,
     'two': 0.142857,
@@ -21,12 +23,12 @@ Identifier = {
 
 Commands = {
     'FLAPS': {
-        'regex': '^flaps (?P<float>up|down|two|five|fifteen|twenty|twenty five|thirty|fourty)$',
+        'regex': DefaultCommands['FLAPS']['regex'],
         'parseValue': parseFlapsValue,
         'dataRefs': [{ 'name': 'sim/cockpit2/controls/flap_ratio', 'type': 'float' }]
     },
     'LANDING_LIGHTS': {
-        'regex': '^landing light[s]? (?P<boolean>on|off)$',
+        'regex': DefaultCommands['LANDING_LIGHTS']['regex'],
         'dataRefs': [
             { 'name': 'FJS/727/lights/OutboundLLSwitch_L', 'type': 'float' },
             { 'name': 'FJS/727/lights/OutboundLLSwitch_R', 'type': 'float' },
@@ -35,19 +37,19 @@ Commands = {
         ]
     },
     'TAXI_LIGHTS': {
-        'regex': '^taxi light[s]? (?P<boolean>on|off)$',
+        'regex': DefaultCommands['TAXI_LIGHTS']['regex'],
         'dataRefs': [{ 'name': 'FJS/727/lights/TaxiLightSwitch', 'type': 'float' }]
     },
     'NAV_LIGHTS': {
-        'regex': '^navigation light[s]? (?P<boolean>on|off)$',
+        'regex': DefaultCommands['NAV_LIGHTS']['regex'],
         'dataRefs': [{ 'name': 'FJS/727/lights/NavLightSwitch', 'type': 'float' }]
     },
     'STROBE_LIGHTS': {
-        'regex': '^strobe light[s]? (?P<boolean>on|off)$',
+        'regex': DefaultCommands['STROBE_LIGHTS']['regex'],
         'dataRefs': [{ 'name': 'FJS/727/lights/StrobeLightSwitch', 'type': 'float' }]
     },
     'BEACON_LIGHTS': {
-        'regex': '^beacon light[s]? (?P<boolean>on|off)$',
+        'regex': DefaultCommands['BEACON_LIGHTS']['regex'],
         'dataRefs': [{ 'name': 'FJS/727/lights/BeaconLightSwitch', 'type': 'float' }]
     }
 }
