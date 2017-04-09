@@ -18,6 +18,11 @@ def parseFlapsValue(value):
 def parseFlightLevel(value):
     return parseToFloat(value) * 100
 
+def parseFrequency(value):
+    sanitizedValue = sanitizeNumberValue(value).replace('.', '')
+    sanitizedValue = sanitizedValue if len(sanitizedValue) == 5 else sanitizedValue + '0'
+    return int(sanitizedValue)
+
 DefaultCommands = {
     'SET_ALTIMETER': {
         'regex': '^set altimeter (?P<custom>((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){4})$',
@@ -44,6 +49,16 @@ DefaultCommands = {
         'regex': '^flaps (?P<float>up|down)$',
         'parseValue': parseFlapsValue,
         'dataRefs': [{ 'name': 'sim/cockpit2/controls/flap_ratio', 'type': 'float' }]
+    },
+    'SET_NAV1': {
+        'regex': '^set nav one to (?P<custom>one (zero|one) (zero|one|two|three|four|five|six|seven|eight|nine) (decimal|zero|one|two|three|four|five|six|seven|eight|nine) (zero|one|two|three|four|five|six|seven|eight|nine)\s?(zero|five)?)$',
+        'parseValue': parseFrequency,
+        'dataRefs': [{ 'name': 'sim/cockpit2/radios/actuators/nav1_left_frequency_hz', 'type': 'int' }]
+    },
+    'SET_COM1': {
+        'regex': '^set com one to (?P<custom>one ((one (eight|nine))|(two (zero|one|two|three|four|five|six|seven|eight|nine))|(three (zero|one|two|three|four|five|six))) (decimal )?(zero|one|two|three|four|five|six|seven|eight|nine)( (zero|two|five|seven))?)$',
+        'parseValue': parseFrequency,
+        'dataRefs': [{ 'name': 'sim/cockpit2/radios/actuators/com1_left_frequency_hz', 'type': 'int' }]
     },
     'LANDING_LIGHTS': {
         'regex': '^landing light[s]? (?P<boolean>on|off)$',
