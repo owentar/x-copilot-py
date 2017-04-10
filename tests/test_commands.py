@@ -65,6 +65,14 @@ class CommandProcessorTest(unittest.TestCase):
         self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set com one to one zero eight decimal five zero'))
         self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set com one to one three eight five'))
 
+    def test_support_SET_HEADING_command(self):
+        self._assertCommand(self.commandProcessor.parseCommand('set heading zero zero zero'), 'SET_HEADING', 000)
+        self._assertCommand(self.commandProcessor.parseCommand('set heading three six zero'), 'SET_HEADING', 360)
+        self._assertCommand(self.commandProcessor.parseCommand('set heading zero seven four'), 'SET_HEADING', 74)
+        self._assertCommand(self.commandProcessor.parseCommand('set heading one seven six'), 'SET_HEADING', 176)
+        self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set heading four seven four'))
+        self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set heading three seven two'))
+
     def test_support_LANDING_LIGHTS_command(self):
         self._assertCommand(self.commandProcessor.parseCommand('landing light on'), 'LANDING_LIGHTS', 1)
         self._assertCommand(self.commandProcessor.parseCommand('landing light off'), 'LANDING_LIGHTS', 0)
