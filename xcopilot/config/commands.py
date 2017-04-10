@@ -72,6 +72,10 @@ DefaultCommands = {
         'regex': '^set speed (?P<float>((zero|one|two|three) (\s?(zero|one|two|three|four|five|six|seven|eight|nine)){2}))$',
         'dataRefs': [{ 'name': 'sim/cockpit2/autopilot/airspeed_dial_kts_mach', 'type': 'float' }]
     },
+    'SPEED_SELECT': {
+        'regex': '^speed select (?P<boolean>on|off)$',
+        'dataRefs': [{ 'name': 'sim/cockpit2/autopilot/heading_mode', 'type': 'boolean' }]
+    },
     'LANDING_LIGHTS': {
         'regex': '^landing light[s]? (?P<boolean>on|off)$',
         'dataRefs': [{ 'name': 'sim/cockpit2/switches/landing_lights_on', 'type': 'int' }]
