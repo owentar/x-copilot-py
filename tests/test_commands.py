@@ -73,6 +73,10 @@ class CommandProcessorTest(unittest.TestCase):
         self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set heading four seven four'))
         self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set heading three seven two'))
 
+    def test_support_HEADING_SELECT_command(self):
+        self._assertCommand(self.commandProcessor.parseCommand('heading select off'), 'HEADING_SELECT', 0)
+        self._assertCommand(self.commandProcessor.parseCommand('heading select on'), 'HEADING_SELECT', 1)
+
     def test_support_SET_SPEED_command(self):
         self._assertCommand(self.commandProcessor.parseCommand('set speed zero zero zero'), 'SET_SPEED', 000)
         self._assertCommand(self.commandProcessor.parseCommand('set speed one two zero'), 'SET_SPEED', 120)
