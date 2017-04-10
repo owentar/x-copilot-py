@@ -64,6 +64,10 @@ DefaultCommands = {
         'regex': '^set heading (?P<float>((zero|one|two) (zero|one|two|three|four|five|six|seven|eight|nine) (zero|one|two|three|four|five|six|seven|eight|nine))|(three (zero|one|two|three|four|five) (zero|one|two|three|four|five|six|seven|eight|nine))|three six zero)$',
         'dataRefs': [{ 'name': 'sim/cockpit2/autopilot/heading_dial_deg_mag_pilot', 'type': 'float' }]
     },
+    'SET_SPEED': {
+        'regex': '^set speed (?P<float>((zero|one|two|three) (\s?(zero|one|two|three|four|five|six|seven|eight|nine)){2}))$',
+        'dataRefs': [{ 'name': 'sim/cockpit2/autopilot/airspeed_dial_kts_mach', 'type': 'float' }]
+    },
     'LANDING_LIGHTS': {
         'regex': '^landing light[s]? (?P<boolean>on|off)$',
         'dataRefs': [{ 'name': 'sim/cockpit2/switches/landing_lights_on', 'type': 'int' }]

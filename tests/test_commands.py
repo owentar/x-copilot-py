@@ -73,6 +73,14 @@ class CommandProcessorTest(unittest.TestCase):
         self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set heading four seven four'))
         self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set heading three seven two'))
 
+    def test_support_SET_SPEED_command(self):
+        self._assertCommand(self.commandProcessor.parseCommand('set speed zero zero zero'), 'SET_SPEED', 000)
+        self._assertCommand(self.commandProcessor.parseCommand('set speed one two zero'), 'SET_SPEED', 120)
+        self._assertCommand(self.commandProcessor.parseCommand('set speed one eight nine'), 'SET_SPEED', 189)
+        self._assertCommand(self.commandProcessor.parseCommand('set speed two five zero'), 'SET_SPEED', 250)
+        self._assertCommand(self.commandProcessor.parseCommand('set speed three two zero'), 'SET_SPEED', 320)
+        self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set speed four zero zero'))
+
     def test_support_LANDING_LIGHTS_command(self):
         self._assertCommand(self.commandProcessor.parseCommand('landing light on'), 'LANDING_LIGHTS', 1)
         self._assertCommand(self.commandProcessor.parseCommand('landing light off'), 'LANDING_LIGHTS', 0)
