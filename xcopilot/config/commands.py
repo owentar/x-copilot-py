@@ -1,3 +1,5 @@
+from XPLMDataAccess import *
+from XPLMUtilities import *
 from xcopilot.parser import sanitizeNumberValue, parseToFloat
 
 def parseAltimeterValue(value):
@@ -22,6 +24,13 @@ def parseFrequency(value):
     sanitizedValue = sanitizeNumberValue(value).replace('.', '')
     sanitizedValue = sanitizedValue if len(sanitizedValue) == 5 else sanitizedValue + '0'
     return int(sanitizedValue)
+
+def headingSelectCommand(headingSelectOn):
+    headingStatusID = XPLMFindDataRef('sim/cockpit2/autopilot/heading_mode')
+    headingStatus = XPLMGetDatai(headingStatusID)
+    if headingSelectOn != headingStatus:
+        headingCommandID = XPLMFindCommand('sim/autopilot/heading')
+        XPLMCommandOnce(headingCommandID)
 
 DefaultCommands = {
     'SET_ALTIMETER': {
@@ -66,7 +75,7 @@ DefaultCommands = {
     },
     'HEADING_SELECT': {
         'regex': '^heading select (?P<boolean>on|off)$',
-        'dataRefs': [{ 'name': 'sim/cockpit2/autopilot/heading_mode', 'type': 'boolean' }]
+        'command': headingSelectCommand
     },
     'SET_SPEED': {
         'regex': '^set speed (?P<float>((zero|one|two|three) (\s?(zero|one|two|three|four|five|six|seven|eight|nine)){2}))$',
