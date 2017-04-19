@@ -1,3 +1,5 @@
+from XPLMDataAccess import *
+from XPLMUtilities import *
 from xcopilot.parser import sanitizeNumberValue, parseToFloat
 
 def parseAltimeterValue(value):
@@ -22,6 +24,13 @@ def parseFrequency(value):
     sanitizedValue = sanitizeNumberValue(value).replace('.', '')
     sanitizedValue = sanitizedValue if len(sanitizedValue) == 5 else sanitizedValue + '0'
     return int(sanitizedValue)
+
+def headingSelectCommand(headingSelectOn):
+    headingStatusID = XPLMFindDataRef('sim/cockpit2/autopilot/heading_mode')
+    headingStatus = XPLMGetDatai(headingStatusID)
+    if headingSelectOn != headingStatus:
+        headingCommandID = XPLMFindCommand('sim/autopilot/heading')
+        XPLMCommandOnce(headingCommandID)
 
 DefaultCommands = {
     'SET_ALTIMETER': {
@@ -59,6 +68,22 @@ DefaultCommands = {
         'regex': '^set com one to (?P<custom>one ((one (eight|nine))|(two (zero|one|two|three|four|five|six|seven|eight|nine))|(three (zero|one|two|three|four|five|six))) (decimal )?(zero|one|two|three|four|five|six|seven|eight|nine)( (zero|two|five|seven))?)$',
         'parseValue': parseFrequency,
         'dataRefs': [{ 'name': 'sim/cockpit2/radios/actuators/com1_left_frequency_hz', 'type': 'int' }]
+    },
+    'SET_HEADING': {
+        'regex': '^set heading (?P<float>((zero|one|two) (zero|one|two|three|four|five|six|seven|eight|nine) (zero|one|two|three|four|five|six|seven|eight|nine))|(three (zero|one|two|three|four|five) (zero|one|two|three|four|five|six|seven|eight|nine))|three six zero)$',
+        'dataRefs': [{ 'name': 'sim/cockpit2/autopilot/heading_dial_deg_mag_pilot', 'type': 'float' }]
+    },
+    'HEADING_SELECT': {
+        'regex': '^heading select (?P<boolean>on|off)$',
+        'command': headingSelectCommand
+    },
+    'SET_SPEED': {
+        'regex': '^set speed (?P<float>((zero|one|two|three) (\s?(zero|one|two|three|four|five|six|seven|eight|nine)){2}))$',
+        'dataRefs': [{ 'name': 'sim/cockpit2/autopilot/airspeed_dial_kts_mach', 'type': 'float' }]
+    },
+    'SPEED_SELECT': {
+        'regex': '^speed select (?P<boolean>on|off)$',
+        'dataRefs': [{ 'name': 'sim/cockpit2/autopilot/heading_mode', 'type': 'boolean' }]
     },
     'LANDING_LIGHTS': {
         'regex': '^landing light[s]? (?P<boolean>on|off)$',

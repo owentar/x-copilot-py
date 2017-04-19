@@ -11,7 +11,8 @@ class Command:
     def __init__(self, name, config):
         self.name = name
         self.regex = re.compile(config['regex'], re.IGNORECASE)
-        self.dataRefs = config['dataRefs']
+        self.command = config.get('command')
+        self.dataRefs = config.get('dataRefs')
         self.parseValue = config.get('parseValue')
         self.value = None
 

@@ -2,8 +2,10 @@ from XPLMDataAccess import *
 from XPLMUtilities  import *
 from XPLMPlugin     import *
 from XPLMDefs       import *
+from XPLMProcessing import *
 from xcopilot import XCopilot
 from xcopilot.xplane import StatusWidget
+import Queue
 import speech_recognition as sr
 import threading
 import os
@@ -24,6 +26,7 @@ class PythonInterface:
         self.Name = "X-Copilot"
         self.Sig = "Owentar.X-Copilot"
         self.Desc = "A voice commanded copilot"
+        self.commandsQueue = Queue.Queue()
         self.isRecording = False
         self.window = StatusWidget(self)
         self.xcopilot = XCopilot()
@@ -33,12 +36,16 @@ class PythonInterface:
         self.recordVoiceCB = self.recordVoiceCallback
         self.recordVoiceCD = XPLMRegisterCommandHandler(self, self.command, self.recordVoiceCB, 0, 0)
 
+        self.loopCB = self.loopCallback
+        XPLMRegisterFlightLoopCallback(self, self.loopCB, 1, 0)
+
         self.bootstrapThread = threading.Thread(target=self.bootstrap)
         self.bootstrapThread.start()
 
         return self.Name, self.Sig, self.Desc
 
     def XPluginStop(self):
+        XPLMUnregisterFlightLoopCallback(self, self.loopCB, 0)
         XPLMUnregisterCommandHandler(self, self.command, self.recordVoiceCB, 0, 0)
         self.window.close()
 
@@ -64,13 +71,25 @@ class PythonInterface:
             self.window.show('Recording...')
             command = self.xcopilot.recordCommand()
             if command is not None:
-                self.window.show('Command recognized: {} {}'.format(command.name, command.value))
-                for dataRef in command.dataRefs:
-                    dataRefID = XPLMFindDataRef(dataRef['name'])
-                    SetDataRef[dataRef['type']](dataRefID, command.value)
+                self.commandsQueue.put(command)
             else:
                 self.window.show('Command not recognized')
             self.isRecording = False
+
+    def loopCallback(self, elapsedMe, elapsedSim, counter, refcon):
+        try:
+            command = self.commandsQueue.get_nowait()
+            self.window.show('Command recognized: {} {}'.format(command.name, command.value))
+            if command.command:
+                command.command(command.value)
+            else:
+                for dataRef in command.dataRefs:
+                    dataRefID = XPLMFindDataRef(dataRef['name'])
+                    SetDataRef[dataRef['type']](dataRefID, command.value)
+            self.commandsQueue.task_done()
+        except Queue.Empty:
+            pass
+        return 1
 
     def bootstrap(self):
         self.xcopilot.bootstrap()
