@@ -50,6 +50,51 @@ Currently the language used by sphinx to recognize commands is specified in corp
 
 To create the language model, go to: http://www.speech.cs.cmu.edu/tools/lmtool-new.html, upload the corpus.txt and get the LM and DIC files content and replace the existing ones defined in pockectsphinx-data/xp-XP folder.
 
+### Conver language model to binary
+Execute from x-copilot root folder:
+```bash
+sphinx_lm_convert -i ./xcopilot/pocketsphinx-data/xp-XP/language-model.lm -o ./xcopilot/pocketsphinx-data/xp-XP/language-model.lm.bin
+```
+
+### Train sphinx
+
+1. Download sphinxbase, pocketsphinx and sphinxtrain from the [Sphinx toolkit](https://cmusphinx.github.io/wiki/tutorialoverview/).
+2. Install sphinxbase:
+```bash
+./autogen.sh
+./configure
+make
+make install
+```
+Note: you may need to run ```make install``` with root privileges. Check [here](https://cmusphinx.github.io/wiki/tutorialpocketsphinx/) for more details on how to install this packages.
+3. Install pocketsphinx:
+```bash
+export LD_LIBRARY_PATH=/usr/local/lib
+export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig
+./configure
+make
+make install
+```
+4. Install sphinxtrain:
+```bash
+./configure
+make
+make install
+```
+5. Create a backup of the acoustic model, in x-copilot root directory execute:
+```bash
+cp -r ./xcopilot/pocketsphinx-data/xp-XP/acoustic-model ./xcopilot/pocketsphinx-data/xp-XP/acoustic-model-ORIG
+```
+6. Execute training scripts
+```bash
+python ./train-speech/train-speech.py
+```
+7. Generate acoustic features files
+```bash
+sphinx_fe -argfile ./xcopilot/pocketsphinx-data/xp-XP/acoustic-model/feat.params -samprate 16000 -c ./train-speech/data/train-speech.fileids -di ./train-speech/data/ -do ./train-speech/data/ -ei wav -eo mfc -mswav yes
+```
+8. 
+
 ### Test
 
 > $ python -m unittest discover
