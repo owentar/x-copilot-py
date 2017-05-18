@@ -1,1 +1,1 @@
-pip install pyaudio pocketsphinx SpeechRecognition
+pip install pyaudio pocketsphinx SpeechRecognition pydub
