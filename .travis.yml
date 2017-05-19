@@ -11,5 +11,4 @@ addons:
       - python-dev
       - python-pyaudio
       - libpulse-dev
-      - libportaudio-dev
       - portaudio19-dev
