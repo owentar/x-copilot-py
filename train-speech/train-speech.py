@@ -1,53 +1,71 @@
 from recorder import Recorder
-from os import mkdir, path
-from shutil import rmtree
+import os
+import uuid
+from train_commands_metadata import TRAIN_COMMANDS_METADATA
 
-TO_NUMBER = {
-    0: 'ZERO',
-    1: 'ONE',
-    2: 'TWO',
-    3: 'THREE',
-    4: 'FOUR',
-    5: 'FIVE',
-    6: 'SIX',
-    7: 'SEVEN',
-    8: 'EIGHT',
-    9: 'NINE'
-}
+TRAINING_SPEECH_DIR = os.path.dirname(os.path.abspath(__file__))
+TRAINING_SPEECH_DATA_DIR = os.path.join(TRAINING_SPEECH_DIR, 'data')
 
-TRAINING_SPEECH_DIR = path.dirname(path.abspath(__file__))
-TRAINING_SPEECH_DATA_DIR = path.join(TRAINING_SPEECH_DIR, 'data')
+MENU_OPTIONS = []
+MENU_OPTIONS.append('EXIT')
+for key in TRAIN_COMMANDS_METADATA:
+    MENU_OPTIONS.append(key)
+
+def clear_console():
+    os.system('cls' if os.name=='nt' else 'clear')
 
 def setup_directories():
-    if path.exists(TRAINING_SPEECH_DATA_DIR):
-        print 'Deleting previous training data'
-        rmtree(TRAINING_SPEECH_DATA_DIR)
+    if not os.path.exists(TRAINING_SPEECH_DATA_DIR):
+        os.mkdir(TRAINING_SPEECH_DATA_DIR)
 
-    mkdir(TRAINING_SPEECH_DATA_DIR)
+def train_command(command, transcriptions, fileIds):
+    commandTrainingMetadata = TRAIN_COMMANDS_METADATA[command]
+    for i in commandTrainingMetadata.get('range'):
+        wavFileName = '{}'.format(uuid.uuid1())
+        transcription = commandTrainingMetadata.get('transcription')(i)
+        recorder = Recorder(os.path.join(TRAINING_SPEECH_DATA_DIR, wavFileName))
+        raw_input('Command to say: {} (press Enter to start recording)'.format(transcription))
+        print 'Recording...'
+        recorder.start_recording()
+        try:
+            raw_input('Press Enter to stop recording')
+            recorder.stop_recording()
+            transcriptions.write('<s> {} </s> ({})\n'.format(transcription, wavFileName))
+            fileIds.write('{}\n'.format(wavFileName))
+        except KeyboardInterrupt:
+            print 'Ignoring this recording'
+            recorder.stop_recording(save=False)
 
-setup_directories()
+def show_menu():
+    print 40 * '='
+    print 'Train Commands Speech Recognition Menu:'
+    print 40 * '-'
+    for idx, command in enumerate(MENU_OPTIONS):
+        print '{}. {}'.format(idx, command)
+    print 40 * '='
+    try:
+        return int(raw_input('Choose an option number and press Enter: '))
+    except ValueError, e :
+        clear_console()
+        print 'Invalid option, please inidcate the option number and press Enter'
+        return show_menu()
 
-transcriptions = open(path.join(TRAINING_SPEECH_DATA_DIR, 'train-speech.transcription'), 'w')
-fileIds = open(path.join(TRAINING_SPEECH_DATA_DIR, 'train-speech.fileids'), 'w')
+def main():
+    setup_directories()
 
-for i in range(0, 10):
-    wavFileName = 'SET_ALTIMETER_299{}'.format(i)
-    number = TO_NUMBER[i]
-    transcription = 'SET ALTIMETER TWO NINE NINE {}'.format(number)
-    recorder = Recorder(path.join(TRAINING_SPEECH_DATA_DIR, wavFileName))
-    raw_input('Command to say: {} (press Enter to start recording)'.format(transcription))
-    print 'Recording...'
-    recorder.start_recording()
-    raw_input('Press Enter to stop recording')
-    recorder.stop_recording()
-    transcriptions.write('<s> {} </s> ({})\n'.format(transcription, wavFileName))
-    fileIds.write('{}\n'.format(wavFileName))
+    transcriptions = open(os.path.join(TRAINING_SPEECH_DATA_DIR, 'train-speech.transcription'), 'a')
+    fileIds = open(os.path.join(TRAINING_SPEECH_DATA_DIR, 'train-speech.fileids'), 'a')
 
-transcriptions.close()
-fileIds.close()
-print 'Done!'
-#print "recording..."
-#start_recording()
-#raw_input('recording... (press Enter to stop recording)')
-#stop_recording()
-#print "Done!"
+    menuOption = show_menu()
+    while (menuOption):
+        if (menuOption == 0):
+            break
+        elif (len(MENU_OPTIONS) > menuOption):
+            train_command(MENU_OPTIONS[menuOption], transcriptions, fileIds)
+        clear_console()
+        menuOption = show_menu()
+
+    transcriptions.close()
+    fileIds.close()
+
+main()
