@@ -81,19 +81,16 @@ make install
 make
 make install
 ```
-5. Create a backup of the acoustic model, in x-copilot root directory execute:
+5. Download [en-US acoustic model](https://sourceforge.net/projects/cmusphinx/files/Acoustic%20and%20Language%20Models/US%20English/), make sure you download the **ptm** version of it (like '''cmusphinx-en-us--ptm-X.Y'''). This is necessary since we need the source code of the acoustic model, not the binaries. Put the en-US folder inside the '''train-speech''' folder.
+6. Inside the '''train-speech''' execute the training scripts
 ```bash
-cp -r ./xcopilot/pocketsphinx-data/xp-XP/acoustic-model ./xcopilot/pocketsphinx-data/xp-XP/acoustic-model-ORIG
+./train-speech.sh
 ```
-6. Execute training scripts
+7. And finally, update acoustic model with the training data
 ```bash
-python ./train-speech/train-speech.py
+./adapt-model-map.sh
 ```
-7. Generate acoustic features files
-```bash
-sphinx_fe -argfile ./xcopilot/pocketsphinx-data/xp-XP/acoustic-model/feat.params -samprate 16000 -c ./train-speech/data/train-speech.fileids -di ./train-speech/data/ -do ./train-speech/data/ -ei wav -eo mfc -mswav yes
-```
-8. 
+8. Finally, try it again and verify if the accuracy has improved after the training. (Executing the '''try-it.sh''')
 
 ### Test
 
