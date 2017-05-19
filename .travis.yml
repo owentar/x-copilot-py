@@ -9,4 +9,5 @@ addons:
       - swig
       - gcc
       - python-dev
+      - python-pyaudio
       - libpulse-dev
