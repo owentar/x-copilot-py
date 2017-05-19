@@ -41,8 +41,48 @@ TRAIN_COMMANDS_METADATA = {
         'range': FLAPS,
         'transcription': lambda i: 'FLAPS {}'.format(TO_NUMBER[i] if i in TO_NUMBER else i).strip()
     },
+    'SET NAV1': {
+        'range': range(0, 5),
+        'transcription': lambda i: 'SET NAV ONE TO ONE TWO {} {} {}'.format(TO_NUMBER[i], TO_NUMBER[i], 'FIVE' if i % 2 == 0 else '').strip()
+    },
+    'SET COM1': {
+        'range': range(0, 5),
+        'transcription': lambda i: 'SET COM ONE TO ONE TWO {} DECIMAL {} {}'.format(TO_NUMBER[i], TO_NUMBER[i], 'FIVE' if i % 2 == 0 else '').strip()
+    },
+    'SET HEADING': {
+        'range': range(0, 3),
+        'transcription': lambda i: 'SET HEADING {} SEVEN THREE'.format(TO_NUMBER(i))
+    },
     'HEADING SELECT': {
         'range': range(0, 2),
         'transcription': lambda i: 'HEADING SELECT {}'.format('ON' if i % 2 == 0 else 'OFF')
+    },
+    'SET SPEED': {
+        'range': range(0, 4),
+        'transcription': lambda i: 'SET SPEED {} TWO EIGHT'.format(TO_NUMBER(i))
+    },
+    'SPEED SELECT': {
+        'range': range(0, 2),
+        'transcription': lambda i: 'SPEED SELECT {}'.format('ON' if i % 2 == 0 else 'OFF')
+    },
+    'LANDING LIGHTS': {
+        'range': range(0, 4),
+        'transcription': lambda i: 'LANDING LIGHT{} {}'.format('S' if i > 1 else '', 'ON' if i % 2 == 0 else 'OFF')
+    },
+    'TAXI LIGHTS': {
+        'range': range(0, 4),
+        'transcription': lambda i: 'TAXI LIGHT{} {}'.format('S' if i > 1 else '', 'ON' if i % 2 == 0 else 'OFF')
+    },
+    'NAV LIGHTS': {
+        'range': range(0, 4),
+        'transcription': lambda i: 'NAVIGATION LIGHT{} {}'.format('S' if i > 1 else '', 'ON' if i % 2 == 0 else 'OFF')
+    },
+    'STROBE LIGHTS': {
+        'range': range(0, 4),
+        'transcription': lambda i: 'STROBE LIGHT{} {}'.format('S' if i > 1 else '', 'ON' if i % 2 == 0 else 'OFF')
+    },
+    'BEACON LIGHTS': {
+        'range': range(0, 4),
+        'transcription': lambda i: 'BEACON LIGHT{} {}'.format('S' if i > 1 else '', 'ON' if i % 2 == 0 else 'OFF')
     }
 }
