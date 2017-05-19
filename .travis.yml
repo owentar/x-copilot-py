@@ -9,3 +9,4 @@ addons:
       - swig
       - gcc
       - python-dev
+      - libpulse-dev
