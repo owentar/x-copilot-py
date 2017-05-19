@@ -8,3 +8,4 @@ addons:
     packages:
       - swig
       - gcc
+      - python-dev
