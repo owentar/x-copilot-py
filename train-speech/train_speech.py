@@ -40,8 +40,10 @@ def show_menu():
     print 40 * '='
     print 'Train Commands Speech Recognition Menu:'
     print 40 * '-'
-    for idx, command in enumerate(MENU_OPTIONS):
-        print '{}. {}'.format(idx, command)
+    for idx, command in enumerate(MENU_OPTIONS[1:]):
+        print '{}. {}'.format(idx + 1, command)
+    print 40 * '-'
+    print '0. EXIT'
     print 40 * '='
     try:
         return int(raw_input('Choose an option number and press Enter: '))
