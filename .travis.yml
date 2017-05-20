@@ -3,3 +3,12 @@ python:
   - "2.7"
 install: pip install pyaudio pocketsphinx SpeechRecognition
 script: python -m unittest discover
+addons:
+  apt:
+    packages:
+      - swig
+      - gcc
+      - python-dev
+      - python-pyaudio
+      - libpulse-dev
+      - portaudio19-dev
