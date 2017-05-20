@@ -6,7 +6,6 @@ from XPLMProcessing import *
 from xcopilot import XCopilot
 from xcopilot.xplane import StatusWidget
 import Queue
-import speech_recognition as sr
 import threading
 import os
 import logging
