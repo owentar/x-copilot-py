@@ -6,8 +6,9 @@ class XCopilotTest(unittest.TestCase):
 
     @patch('xcopilot.config.configprovider.ConfigProvider')
     @patch('xcopilot.main.sr.Microphone')
+    @patch('xcopilot.main.sr.Microphone.get_pyaudio')
     @patch('xcopilot.main.Recognizer')
-    def setUp(self, mock_recognizer, mock_microphone, mock_configProvider):
+    def setUp(self, mock_recognizer, mock_microphone, mock_pyaudio, mock_configProvider):
         self.mock_recognizer = mock_recognizer.return_value
         self.mock_recognizer.listen.return_value = None
         self.mock_recognizer.recognize_sphinx2.return_value = 'set altimeter two nine nine two'
