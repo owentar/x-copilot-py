@@ -1,1 +1,1 @@
-pip install pyaudio pocketsphinx SpeechRecognition
+pip install -r requirements.txt
