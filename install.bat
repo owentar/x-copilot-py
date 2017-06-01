@@ -1,1 +1,1 @@
-python -m pip install pyaudio pocketsphinx SpeechRecognition pydub
+python -m pip install -r requirements.txt

@@ -2,4 +2,5 @@
 **/acoustic-model/
 MANIFEST
 dist
+.vagrant/
 train-speech/data
