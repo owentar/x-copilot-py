@@ -1,5 +1,9 @@
-from XPLMDataAccess import *
-from XPLMUtilities import *
+try:
+    from XPLMDataAccess import *
+    from XPLMUtilities import *
+except ImportError:
+    from XPlaneSDKStub.XPLMDataAccess import *
+    from XPlaneSDKStub.XPLMUtilities import *
 from xcopilot.parser import sanitizeNumberValue, parseToFloat
 
 def parseAltimeterValue(value):
