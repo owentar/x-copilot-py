@@ -2,6 +2,7 @@ import speech_recognition as sr
 from xcopilot.commands import CommandProcessor
 from xcopilot.recognizer import Recognizer
 from xcopilot.config import ConfigProvider
+from xcopilot.foo import Foo
 import logging
 
 class XCopilot:
@@ -16,7 +17,7 @@ class XCopilot:
         self.commandProcessor.setConfig(config)
 
     def recordCommand(self):
-        with sr.Microphone() as source:
+        with self.getMicrophone() as source:
             audio = self.recognizer.listen(source)
         try:
             strCommand = self.recognizer.recognize_sphinx2(audio)
@@ -42,3 +43,6 @@ class XCopilot:
             self.logger.info('X-Copilot initialized')
         except sr.RequestError as e:
             self.logger.error('Sphinx error; {0}'.format(e))
+
+    def getMicrophone(self):
+        return sr.Microphone()
