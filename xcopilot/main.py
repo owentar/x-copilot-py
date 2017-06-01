@@ -2,7 +2,6 @@ import speech_recognition as sr
 from xcopilot.commands import CommandProcessor
 from xcopilot.recognizer import Recognizer
 from xcopilot.config import ConfigProvider
-from xcopilot.foo import Foo
 import logging
 
 class XCopilot:
