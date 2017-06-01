@@ -2,3 +2,4 @@
 **/acoustic-model/
 MANIFEST
 dist
+.vagrant/
