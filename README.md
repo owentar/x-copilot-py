@@ -10,7 +10,11 @@ X-Copilot runs in python, so to be able to use it in X-Plane, you will need to h
 
 With python installed on your system, execute the ```install.bat``` file. This will install all the python packages required by the speech recognition library.
 
+Check [dependencies](https://github.com/Uberi/speech_recognition#pyaudio-for-microphone-users) required by speech_recognition project to support pyaudio. Install the required packages for your platform.
+
 > **Windows users:** make sure your python installation directory is on your PATH environment variable as well as the python/scripts directory. This should have be done automatically by the python installer. If not, try to reinstall python 2 and make sure to check the option to install python.exe in your PATH.
+
+> **Mac users:** you need to have already installed 'portaudio' package. If you have homebrew you can just do 'brew install portaudio'. You may need to execute the install.sh file with sudo privileges.
 
 #### Quick verification
 
