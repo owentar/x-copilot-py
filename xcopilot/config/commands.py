@@ -36,6 +36,13 @@ def headingSelectCommand(headingSelectOn):
         headingCommandID = XPLMFindCommand('sim/autopilot/heading')
         XPLMCommandOnce(headingCommandID)
 
+def altitudeSelectCommand(altitudeSelectOn):
+    altitudeStatusID = XPLMFindDataRef('sim/cockpit2/autopilot/altitude_hold_armed')
+    altitudeStatus = XPLMGetDatai(altitudeStatusID)
+    if altitudeSelectOn != altitudeStatus:
+        altitudeCommandID = XPLMFindCommand('sim/autopilot/altitude_arm')
+        XPLMCommandOnce(altitudeCommandID)
+
 DefaultCommands = {
     'SET_ALTIMETER': {
         'regex': '^set altimeter (?P<custom>((\d|zero|one|two|three|four|five|six|seven|eight|nine)\s?){4})$',
@@ -72,6 +79,10 @@ DefaultCommands = {
         'regex': '^set com one to (?P<custom>one ((one (eight|nine))|(two (zero|one|two|three|four|five|six|seven|eight|nine))|(three (zero|one|two|three|four|five|six))) (decimal )?(zero|one|two|three|four|five|six|seven|eight|nine)( (zero|two|five|seven))?)$',
         'parseValue': parseFrequency,
         'dataRefs': [{ 'name': 'sim/cockpit2/radios/actuators/com1_left_frequency_hz', 'type': 'int' }]
+    },
+    'ALTITUDE_SELECT': {
+        'regex': '^altimeter select (?P<boolean>on|off)$',
+        'command': altitudeSelectCommand
     },
     'SET_HEADING': {
         'regex': '^set heading (?P<float>((zero|one|two) (zero|one|two|three|four|five|six|seven|eight|nine) (zero|one|two|three|four|five|six|seven|eight|nine))|(three (zero|one|two|three|four|five) (zero|one|two|three|four|five|six|seven|eight|nine))|three six zero)$',

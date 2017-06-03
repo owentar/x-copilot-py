@@ -65,6 +65,10 @@ class CommandProcessorTest(unittest.TestCase):
         self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set com one to one zero eight decimal five zero'))
         self._assertCommandNotRecognized(self.commandProcessor.parseCommand('set com one to one three eight five'))
 
+    def test_support_ALTITUDE_SELECT_command(self):
+        self._assertCommand(self.commandProcessor.parseCommand('altimeter select off'), 'ALTITUDE_SELECT', 0)
+        self._assertCommand(self.commandProcessor.parseCommand('altimeter select on'), 'ALTITUDE_SELECT', 1)
+
     def test_support_SET_HEADING_command(self):
         self._assertCommand(self.commandProcessor.parseCommand('set heading zero zero zero'), 'SET_HEADING', 000)
         self._assertCommand(self.commandProcessor.parseCommand('set heading three six zero'), 'SET_HEADING', 360)
