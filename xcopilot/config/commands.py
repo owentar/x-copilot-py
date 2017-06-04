@@ -81,7 +81,7 @@ DefaultCommands = {
         'dataRefs': [{ 'name': 'sim/cockpit2/radios/actuators/com1_left_frequency_hz', 'type': 'int' }]
     },
     'ALTITUDE_SELECT': {
-        'regex': '^altimeter select (?P<boolean>on|off)$',
+        'regex': '^altitude select (?P<boolean>on|off)$',
         'command': altitudeSelectCommand
     },
     'SET_HEADING': {
