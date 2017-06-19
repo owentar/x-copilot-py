@@ -5,7 +5,6 @@ from XPLMDefs       import *
 from XPLMProcessing import *
 from xcopilot import XCopilot
 from xcopilot.xplane import StatusWidget
-import Queue
 import threading
 import os
 import logging
@@ -25,7 +24,7 @@ class PythonInterface:
         self.Name = "X-Copilot"
         self.Sig = "Owentar.X-Copilot"
         self.Desc = "A voice commanded copilot"
-        self.commandsQueue = Queue.Queue()
+        self.commandsQueue = []
         self.isRecording = False
         self.window = StatusWidget(self)
         self.xcopilot = XCopilot()
@@ -70,14 +69,14 @@ class PythonInterface:
             self.window.show('Recording...')
             command = self.xcopilot.recordCommand()
             if command is not None:
-                self.commandsQueue.put(command)
+                self.commandsQueue.append(command)
             else:
                 self.window.show('Command not recognized')
             self.isRecording = False
 
     def loopCallback(self, elapsedMe, elapsedSim, counter, refcon):
-        try:
-            command = self.commandsQueue.get_nowait()
+        if (len(self.commandsQueue) > 0):
+            command = self.commandsQueue.pop(0)
             self.window.show('Command recognized: {} {}'.format(command.name, command.value))
             if command.command:
                 command.command(command.value)
@@ -85,9 +84,6 @@ class PythonInterface:
                 for dataRef in command.dataRefs:
                     dataRefID = XPLMFindDataRef(dataRef['name'])
                     SetDataRef[dataRef['type']](dataRefID, command.value)
-            self.commandsQueue.task_done()
-        except Queue.Empty:
-            pass
         return 1
 
     def bootstrap(self):
