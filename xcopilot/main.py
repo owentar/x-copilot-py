@@ -35,8 +35,9 @@ class XCopilot:
     def bootstrap(self):
         try:
             with sr.Microphone() as source:
-                audio = self.recognizer.listen(source, 2)
-                capture = self.recognizer.recognize_sphinx2(audio)
+                self.recognizer.adjust_for_ambient_noise(source, 2)
+                # audio = self.recognizer.listen(source, 2)
+                # capture = self.recognizer.recognize_sphinx2(audio)
                 self.logger.info('X-Copilot initialized ({0})'.format(capture))
         except sr.WaitTimeoutError as e:
             self.logger.info('X-Copilot initialized')
