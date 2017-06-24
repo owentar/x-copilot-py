@@ -29,19 +29,14 @@ def parseFrequency(value):
     sanitizedValue = sanitizedValue if len(sanitizedValue) == 5 else sanitizedValue + '0'
     return int(sanitizedValue)
 
-def headingSelectCommand(headingSelectOn):
-    headingStatusID = XPLMFindDataRef('sim/cockpit2/autopilot/heading_mode')
-    headingStatus = XPLMGetDatai(headingStatusID)
-    if headingSelectOn != headingStatus:
-        headingCommandID = XPLMFindCommand('sim/autopilot/heading')
-        XPLMCommandOnce(headingCommandID)
-
-def altitudeSelectCommand(altitudeSelectOn):
-    altitudeStatusID = XPLMFindDataRef('sim/cockpit2/autopilot/altitude_hold_armed')
-    altitudeStatus = XPLMGetDatai(altitudeStatusID)
-    if altitudeSelectOn != altitudeStatus:
-        altitudeCommandID = XPLMFindCommand('sim/autopilot/altitude_arm')
-        XPLMCommandOnce(altitudeCommandID)
+def selectCommand(statusDataRef, command):
+    def selectCommandFunc(expectedStatus):
+        statusID = XPLMFindDataRef(statusDataRef)
+        currentStatus = XPLMGetDatai(statusID)
+        if expectedStatus != currentStatus:
+            commandID = XPLMFindCommand(command)
+            XPLMCommandOnce(commandID)
+    return selectCommandFunc
 
 DefaultCommands = {
     'SET_ALTIMETER': {
@@ -82,7 +77,7 @@ DefaultCommands = {
     },
     'ALTITUDE_SELECT': {
         'regex': '^altitude select (?P<boolean>on|off)$',
-        'command': altitudeSelectCommand
+        'command': selectCommand('sim/cockpit2/autopilot/altitude_hold_armed', 'sim/autopilot/altitude_arm')
     },
     'SET_HEADING': {
         'regex': '^set heading (?P<float>((zero|one|two) (zero|one|two|three|four|five|six|seven|eight|nine) (zero|one|two|three|four|five|six|seven|eight|nine))|(three (zero|one|two|three|four|five) (zero|one|two|three|four|five|six|seven|eight|nine))|three six zero)$',
@@ -90,7 +85,7 @@ DefaultCommands = {
     },
     'HEADING_SELECT': {
         'regex': '^heading select (?P<boolean>on|off)$',
-        'command': headingSelectCommand
+        'command': selectCommand('sim/cockpit2/autopilot/heading_mode', 'sim/autopilot/heading')
     },
     'SET_SPEED': {
         'regex': '^set speed (?P<float>((zero|one|two|three) (\s?(zero|one|two|three|four|five|six|seven|eight|nine)){2}))$',

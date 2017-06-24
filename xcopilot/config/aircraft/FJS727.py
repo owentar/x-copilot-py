@@ -23,7 +23,7 @@ Identifier = {
 
 Commands = {
     'FLAPS': {
-        'regex': DefaultCommands['FLAPS']['regex'],
+        'regex': '^flaps (?P<custom>up|two|five|fifteen|twenty|twenty five|thirty|fourty|down)$',
         'parseValue': parseFlapsValue,
         'dataRefs': [{ 'name': 'sim/cockpit2/controls/flap_ratio', 'type': 'float' }]
     },
