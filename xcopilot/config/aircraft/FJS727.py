@@ -16,7 +16,7 @@ def parseFlapsValue(value):
     return FlapsToValue[value.strip().lower()]
 
 Identifier = {
-    'author': '2016',
+    'author': 'Jack Skieczius',
     'description': '727 Series by FlyJSim',
     'ICAO': 'B727'
 }
