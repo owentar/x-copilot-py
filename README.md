@@ -1,6 +1,6 @@
 # X-Copilot
 
-[![Build Status](https://travis-ci.org/owentar/x-copilot.svg?branch=master)](https://travis-ci.org/owentar/x-copilot)
+[![Build Status](https://travis-ci.org/owentar/x-copilot.svg?branch=master)](https://travis-ci.org/owentar/x-copilot-py)
 
 This is a Python plugin for [X-Plane](http://www.x-plane.com/) to support voice commands in the simulator.
 
